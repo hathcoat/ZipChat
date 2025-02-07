@@ -13,11 +13,12 @@ app.use(express.json());
 app.use(cors({
     origin: "http://localhost:3000",
     methods: "GET, POST",
+    allowedHeaders: ["Content-Type", "Authorization"],
 }));
 //Connect to mongo db
 connectDB();
 //Authentication routes.
-app.use("/api/auth", require("./auth")); 
+app.use("/api/auth", require("./auth"));
 
 /*
 mongoose.connect(Mongo_URI, {
