@@ -19,6 +19,9 @@ app.use(cors({
 connectDB();
 //Authentication routes.
 app.use("/api/auth", require("./auth"));
+//Chatroom routes
+app.use("/api/chatrooms", require("./chatroomRoutes"))
+
 
 /*
 mongoose.connect(Mongo_URI, {

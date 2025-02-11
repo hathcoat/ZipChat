@@ -4,6 +4,8 @@ import Login from "./Login";
 import Register from "./Register";
 import Home from "./Home";
 import Name from "./Name";
+import Chatroom from "./Chatrooms";
+import ChatroomDisplay from "./ChatroomDisplay";
 import {Link} from "react-router-dom";
 
 function App(){
@@ -47,6 +49,7 @@ function App(){
                     <Route path="/home" element={<Home />}/>
                     <Route path="/name" element={<Name />}/>
                     <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route path="/chatroom/:chatroomId" element={<ChatroomDisplay />} />
                 </Routes>
             </div>
         </Router>
