@@ -12,7 +12,7 @@ function App(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
 
-
+    
     useEffect(() => {
         const token = localStorage.getItem("token");
         if(token) {
