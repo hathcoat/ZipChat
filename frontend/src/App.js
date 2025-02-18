@@ -7,6 +7,7 @@ import Name from "./Name";
 import Chatroom from "./Chatrooms";
 import ChatroomDisplay from "./ChatroomDisplay";
 import {Link} from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -46,6 +47,10 @@ function App(){
                 <Routes>
                     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn}/>} />
                     <Route path="/register" element={<Register />}/>
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/home" element={<Home />} />
+                    </Route>
+
                     <Route path="/home" element={<Home />}/>
                     <Route path="/name" element={<Name />}/>
                     <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn}/>}/>

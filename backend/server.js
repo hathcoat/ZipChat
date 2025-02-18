@@ -12,7 +12,8 @@ app.use(express.json());
 //Enable CORS
 app.use(cors({
     origin: "http://localhost:3000",
-    methods: "GET, POST",
+    methods: "GET, POST, PUT, DELETE",
+    credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
 }));
 //Connect to mongo db
@@ -21,6 +22,9 @@ connectDB();
 app.use("/api/auth", require("./auth"));
 //Chatroom routes
 app.use("/api/chatrooms", require("./chatroomRoutes"))
+
+const chatroomRoutes = require("./chatroomRoutes");
+//app.use("/chatrooms", chatroomRoutes);
 
 
 /*

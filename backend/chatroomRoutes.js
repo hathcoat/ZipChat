@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 const Chatroom = require('./Chatroom');
@@ -91,6 +92,27 @@ router.post('/:id/message', async (req, res) => {
     catch (err) {
         res.status(500).json({ error: err.message });
         console.log(err)
+    }
+});
+
+router.delete("/:id", async(req, res) => {
+    try{
+      const chatroomId = req.params.id; 
+      // Convert string to ObjectId
+      if (!mongoose.Types.ObjectId.isValid(chatroomId)) {
+          console.error("Invalid ObjectId format:", chatroomId);
+          return res.status(400).json({ message: "Invalid chatroom ID format." });
+      }
+
+      const deletedChatroom = await Chatroom.findByIdAndDelete(chatroomId);
+
+      if(!deletedChatroom){
+        return res.status(404).json({message: "Chatroom not found."});
+      }
+      res.json({message: "Chatroom deleted successfully"});
+    } catch(error){
+        console.error("Error deleting chatroom:", error);
+        res.status(500).json({message: "Server error"});
     }
 });
 

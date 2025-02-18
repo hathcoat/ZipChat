@@ -1,14 +1,30 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 
-const Chatrooms = () => {
+const Chatrooms = ({refresh}) => { //Added refresh
     const [chatrooms, setChatrooms] = useState([]);
 
+
+
+    /*
     useEffect(() => {
         axios.get("http://localhost:5000/api/chatrooms")
         .then(res => setChatrooms(res.data))
         .catch(err => console.error(err));
     }, []);
+    */
+    const fetchChatrooms = async () => {
+        try{
+            const res = await axios.get("http://localhost:5000/api/chatrooms");
+            setChatrooms(res.data);
+        } catch(err){
+            console.error("Error fetching chatrooms:", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchChatrooms();
+    }, [refresh]);
 
     return (
         <div>
