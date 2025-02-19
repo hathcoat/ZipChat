@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
+import axios from "axios";
 import Chatrooms from "./Chatrooms"
 import ChatInterface from "./ChatInterface"
 import ChatroomList from "./ChatroomList"
@@ -8,6 +9,10 @@ import{useNavigate} from "react-router-dom";
 function Home(){
     const navigate = useNavigate();
     const [refresh, setRefresh] = useState(false);
+    const [loading, setLoading] = useState(false)
+
+    const username = localStorage.getItem("username"); //This gets the username from local storage
+
     const handleLogout = () => {
         localStorage.removeItem("token");
 
