@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getChatroom } from "./GetChatroom.js";
+import { getUserId } from "./GetUserId.js";
 import ChatInterface from "./ChatInterface";
 
 const ChatroomDisplay = () => {
     const { chatroomId } = useParams();
     const [chatroom, setChatroom] = useState(null);
+    const [userId, setUserId] = useState(null);
 
     //Gets chatroom info and fills box
     const fetchChatroom = async () => {
@@ -13,10 +15,21 @@ const ChatroomDisplay = () => {
         setChatroom(data);
     };
 
+    //Retrieves user ID
+    const fetchUserId = async () => {
+        const id = await getUserId();
+        setUserId(id);
+    };
+
+    //UID
+    useEffect(() => {
+        fetchUserId();
+    }, []);
+
     //Fetches chatroom repeatedly to update it
     useEffect(() => {
         fetchChatroom();
-        const interval = setInterval(fetchChatroom, 500); //Interval of 500ms
+        const interval = setInterval(fetchChatroom, 200);
         return () => clearInterval(interval);
     }, [chatroomId]);
 
@@ -47,7 +60,7 @@ const ChatroomDisplay = () => {
             </div>
 
             <br></br>
-            <ChatInterface chatroomId = {chatroomId} senderId="67a53bb98d5e40d59e13c2e7" />
+            <ChatInterface chatroomId = {chatroomId} senderId = {userId} />
 
         </div>
     );
