@@ -50,9 +50,14 @@ const ChatroomDisplay = () => {
             <div style={{ border: "1px solid black", padding: "10px", maxWidth: "400px" }}>
                 {chatroom.messages.length > 0 ? (
                     chatroom.messages.map((msg) => (
-                        <p key={msg._id}>
-                            <strong>{msg.sender.username}:</strong> {msg.content}
-                        </p>
+                        <div key={msg._id} style={{ marginBottom: "10px" }}>
+                            <p style={{ fontSize: "10pt", margin: "1px 0" }}>
+                                {<strong>{msg.sender.username}</strong>}: {msg.content}
+                            </p>
+                            <p style={{ fontSize: "6pt", margin: 0 }}>
+                                {new Date(msg.timestamp).toLocaleTimeString()} {new Date(msg.timestamp).toLocaleDateString()}
+                            </p>
+                        </div>
                     ))
                 ) : (
                     <p>No messages yet.</p>
@@ -60,7 +65,7 @@ const ChatroomDisplay = () => {
             </div>
 
             <br></br>
-            <ChatInterface chatroomId = {chatroomId} senderId = {userId} />
+            <ChatInterface chatroomId={chatroomId} senderId={userId} />
 
         </div>
     );
