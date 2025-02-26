@@ -1,13 +1,17 @@
 import {useState} from "react";
-import {sendMessage} from "./SendMessage"
+import {sendMessage} from "./SendMessage";
 
-const ChatInterface = ({chatroomId, senderId}) => {
+const ChatInterface = ({chatroomId, senderId, onMessageSent}) => {
     const [message, setMessage] = useState("");
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (message.trim()) {
-            sendMessage(chatroomId, senderId, message);
+            const newMessage = await sendMessage(chatroomId, senderId, message);
             setMessage("")
+
+            if(newMessage && typeof onMessageSent === "function") {
+                onMessageSent(newMessage); //Ensure UI updates instantly
+            }
         }
     };
 

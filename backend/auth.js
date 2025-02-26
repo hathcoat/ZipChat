@@ -63,7 +63,7 @@ router.post("/register", async(req, res) => {
 });
 
 router.post("/setname", async (req, res) => {
-    const {first_name, last_name} = req.body;
+    const {first_name, last_name, avatarColor} = req.body;
 
     try {
         const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -78,6 +78,7 @@ router.post("/setname", async (req, res) => {
         }
         user.first_name = first_name;
         user.last_name = last_name;
+        user.avatarColor = avatarColor;
         await user.save();
 
         res.status(200).json({message: "Name updated successfully.", redirect: true});
@@ -99,6 +100,27 @@ router.get("/:username", async (req, res) => {
     } catch(err){
         console.error("Error fetching user:", err);
         res.status(500).json({error: "Server error"});
+    }
+});
+
+//Update avatar color
+router.put("/avatar", async(req, res) => {
+    const {userId, avatarColor} = req.body;
+
+    try{
+        //Update teh color
+        const user = await User.findByIdAndUpdate(
+            userId,
+            {avatarColor},
+            {new: true}
+        );
+
+        //User not found.
+        if(!user) return res.status(404).json({message: "User not found"});
+
+        res.status(200).json(user);
+    } catch(err){
+        res.status(500).json({error: err.message});
     }
 });
 

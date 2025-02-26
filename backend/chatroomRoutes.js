@@ -52,13 +52,20 @@ router.get("/:chatroomId", async (req, res) => {
 
         // populate users and messages
         const chatroom = await Chatroom.findById(chatroomId)
-            .populate("members", "username")
-            .populate("messages.sender", "username")
+            .populate("members", "username first_name last_name avatarColor")
+            .populate("messages.sender", "username first_name last_name avatarColor")
             .exec();
 
         if (!chatroom) {
             return res.status(404).json({ error: "Chatroom not found" });
         }
+
+
+        ///added await
+        await Chatroom.populate(chatroom,{
+            path: "messages.sender",
+            select: "username firstname lastname color"
+        });
 
         res.json(chatroom);
     } catch (err) {
@@ -74,12 +81,23 @@ router.post('/:id/message', async (req, res) => {
         const chatroom = await Chatroom.findById(req.params.id);
         if (!chatroom) return res.status(404).json({ error: 'Chatroom not found' });
 
+        //Added
+        const user = await User.findById(sender);
+        if(!user) return res.status(400).json({error:  "Invalid sender ID"});
+        const newMessage = {sender: user._id, content};
+        chatroom.messages.push(newMessage);
+        await chatroom.save();
+        await chatroom.populate("messages.sender", "username first_name last_name avatarColor");
+        res.json(chatroom);
+
+        /*
         chatroom.messages.push({ sender, content });
         console.log(chatroom)
         console.log(sender)
         console.log(content)
         await chatroom.save();
         res.json(chatroom);
+        */
     }
     catch (err) {
         res.status(500).json({ error: err.message });
