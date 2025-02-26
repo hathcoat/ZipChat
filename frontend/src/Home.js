@@ -23,6 +23,9 @@ function Home(){
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("first_name")
+        localStorage.removeItem("last_name")
+        localStorage.removeItem("avatarColor")
 
         navigate("/login");
     };

@@ -21,10 +21,9 @@ router.post("/login", async(req, res) => {
     const jwt = require('jsonwebtoken');
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
     const redirect = !user.first_name || !user.last_name;
-
     res.json({token, redirect});
     
-})
+});
 
 router.post("/register", async(req, res) => {
     try{
@@ -121,6 +120,57 @@ router.put("/avatar", async(req, res) => {
         res.status(200).json(user);
     } catch(err){
         res.status(500).json({error: err.message});
+    }
+});
+
+router.get("/getuser", async (req, res) => {
+    try{
+        console.log("Recieved request to /getuser"); //Debug
+        //Get token from request
+        const token = req.header("Authorization")?.replace("Bearer ", "");
+
+        if(!token){
+            console.warn("No token found in locaStorage.");
+            return res.status(401).json({message: "No token, authorization denied"});
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log("Decoded JWT ID:", decoded.id); //Debug
+        const user = await User.findById(decoded.id).select("-password"); //Exclude password.
+
+        if(!user){
+            console.error("user not found in data baase for ID:", decoded.id);
+            return res.status(404).json({message: "User not found"});
+        }
+
+        console.log("User found:", user.username); //Debug
+
+        res.status(200).json({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            avatarColor: user.avatarColor,
+            username: user.username
+        });
+    } catch (error){
+        console.error("Error fetching user:", error);
+        res.status(500).json({message: "Server error"});
+    }
+});
+router.get("/user/:username", async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username }).select("-password");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            avatarColor: user.avatarColor
+        });
+    } catch (error) {
+        console.error("Error fetching user by username:", error);
+        res.status(500).json({ message: "Server error" });
     }
 });
 

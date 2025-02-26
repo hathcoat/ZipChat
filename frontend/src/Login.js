@@ -19,20 +19,12 @@ function Login({setIsLoggedIn}) {
                 username, 
                 password,
             });
-/*
-            const token = response.data?.token; //extract token.
-            if (token) {
-                localStorage.setItem("token", token);
-                setIsLoggedIn(true);
-                navigate("/home");
-            } else {
-                setMessage("Invalid login response")
-            }
-*/
+
             const{token, redirect} = response.data //extract token.
             //Save the token for other authenticated requests
             localStorage.setItem("token", token);
             localStorage.setItem("username", username);
+
             if (redirect) {
                 navigate("/name");
             } else {

@@ -3,21 +3,35 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 function Name() {
-    const [first_name, setFirstName] = useState("");
-    const [last_name, setLastName] = useState("");
-    const [selectedColor,setSelectedColor] = useState("#3498db");
     const navigate = useNavigate();
     const colorOptions = ["#3498db", "#FF6347", "#32CD32", "#FFD700", "#FF69B4", "#8A2BE2"];
 
-    useEffect(() => {
-        const storedFirstName = localStorage.getItem("first_name") || "";
-        const storedLastName = localStorage.getItem("last_name") || "";
-        const storedColor = localStorage.getItem("avatarColor") || "#3498db";
+    const username = localStorage.getItem("username");
 
-        setFirstName(storedFirstName);
-        setLastName(storedLastName);
-        setSelectedColor(storedColor);
-    }, []);
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
+    const [selectedColor, setSelectedColor] = useState("#3498db")
+
+    useEffect(() => {
+        const fetchUserData = async() => {
+            try{
+                const response = await axios.get(`http://localhost:5000/api/auth/user/${username}`);
+                const {first_name, last_name, avatarColor} = response.data;
+                console.log("User Data recieved:", response.data);
+
+                setFirstName(first_name || "");
+                setLastName(last_name || "");
+                setSelectedColor(avatarColor|| "#3498db");
+
+                localStorage.setItem("first_name", first_name);
+                localStorage.setItem("last_name", last_name);
+                localStorage.setItem("avatarColor", avatarColor);
+            } catch (error){
+                console.error("Error fetching user data:", error);
+            }
+        };
+        fetchUserData();
+    }, [username]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

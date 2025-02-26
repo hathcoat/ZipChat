@@ -86,16 +86,22 @@ const ChatroomDisplay = () => {
             <h3>Messages:</h3>
             <div style={{ border: "1px solid black", padding: "10px", maxWidth: "400px" }}>
                 {chatroom.messages.length > 0 ? (
-                    chatroom.messages.map((msg) => (
+                    chatroom.messages.map((msg) => {
+                        const sender = msg.sender ? chatroom.members.find((user) => user._id === msg.sender._id) : null;
+
+                        console.log("Message Sender:", msg.sender); //Debug
+                        console.log("Resolved Sender:", sender); //Debug
+                        return(
                         <div key={msg._id} style={{ marginBottom: "10px" }}>
                             <p style={{ fontSize: "10pt", margin: "1px 0" }}>
-                                {<strong>{msg.sender.username}</strong>}: {msg.content}
+                                {<Avatar firstname={sender.first_name ||""} lastname={sender.last_name || ""} color={sender.avatarColor || "#3498db"} size={40}/>}: {msg.content}
                             </p>
                             <p style={{ fontSize: "6pt", margin: 0 }}>
                                 {new Date(msg.timestamp).toLocaleTimeString()} {new Date(msg.timestamp).toLocaleDateString()}
                             </p>
                         </div>
-                    ))
+                        );
+                    })
                 ) : (
                     <p>No messages yet.</p>
                 )}
