@@ -96,7 +96,7 @@ router.get("/:username", async (req, res) => {
         if(!user){
             return res.status(404).json({error: "User not found."});
         }
-        res.json({id: user._id, username: user.username});
+        res.json({id: user._id.toString(), username: user.username});
     } catch(err){
         console.error("Error fetching user:", err);
         res.status(500).json({error: "Server error"});
