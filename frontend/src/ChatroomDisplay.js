@@ -96,7 +96,7 @@ const ChatroomDisplay = () => {
                             <p style={{ fontSize: "10pt", margin: "1px 0" }}>
                                 {<Avatar firstname={sender.first_name ||""} lastname={sender.last_name || ""} color={sender.avatarColor || "#3498db"} size={40}/>}: {msg.content}
                             </p>
-                            <p style={{ fontSize: "6pt", margin: 0 }}>
+                            <p style={{ fontSize: "20pt", margin: 0 }}>
                                 {new Date(msg.timestamp).toLocaleTimeString()} {new Date(msg.timestamp).toLocaleDateString()}
                             </p>
                         </div>
