@@ -21,6 +21,8 @@ const ChatroomList = ({setRefresh}) => {
 
   useEffect(() => {
     fetchChatrooms();
+    const interval = setInterval(fetchChatrooms, 500);
+    return () => clearInterval(interval);
   }, []);
 
   const deleteChatroom = async(chatroomId) => {

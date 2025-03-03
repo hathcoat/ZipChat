@@ -17,18 +17,18 @@ router.get("/", async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { name, members } = req.body;
+        
+        if (!name || name.trim().length === 0) {
+            return res.status(400).json({ error: "A chatroom must have a name." });
+        }
 
-        // >2 members
+        // req >=2 members
         if (!members || members.length < 2) {
             return res.status(400).json({ error: "A chatroom must have at least two members." });
         }
 
-        console.log(members);
-
         // find by user not ID
         const users = await User.find({ username: { $in: members } });
-
-        console.log(users);
 
         if (users.length !== members.length) {
             return res.status(400).json({ error: "Some usernames were not found." });

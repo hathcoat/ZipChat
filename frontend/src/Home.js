@@ -10,7 +10,6 @@ import Name from "./Name";
 
 function Home(){
     const navigate = useNavigate();
-    const [refresh, setRefresh] = useState(false);
     const [loading, setLoading] = useState(false)
 
     const username = localStorage.getItem("username"); //This gets the username from local storage
@@ -93,11 +92,8 @@ function Home(){
                 Sign Out
             </button>
         </div>
-            <MakeChatroom />
-            <Chatrooms refresh = {refresh} />
-            <ChatroomList setRefresh={setRefresh}/>
-            <ChatInterface chatroomId ="67b6c68d4ddd37cc0ac78bf5" senderId="67a465bd61aa98bf1b7a9550" />
-           {/*<ChatInterface chatroomId ="67ab0df06885894618b2c8dd" senderId="67a53bb98d5e40d59e13c2e7" />*/}
+            <MakeChatroom/>
+            <ChatroomList/>
         </div>
     );
 };
