@@ -10,6 +10,7 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
+//Registration success
 test('successful registration shows success message', async() => {
     //Mock axios
     axios.post.mockResolvedValueOnce({
