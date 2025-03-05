@@ -49,6 +49,7 @@ describe("Authentication routes", () => {
         token = jwt.sign({ id: testUser._id.toString() }, process.env.JWT_SECRET);
     });
 
+    //Successful registration
     test("should register a user successfully", async () => {
         const res = await request(app).post("/api/auth/register").send({
             username: "newuser",
