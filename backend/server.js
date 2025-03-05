@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const connectDB = require("./db");
+const {connectDB} = require("./db");
 
 dotenv.config(); //Load environment variables.
 
@@ -36,4 +36,17 @@ mongoose.connect(Mongo_URI, {
 */
 //Set default port from .env to 5000
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+let server;
+if(require.main === module){
+    server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+/*
+//Only start if file is run directly.
+if(require.main === module){
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+*/
+//Export app for testing.
+//module.exports = app;
+module.exports = {app, server};

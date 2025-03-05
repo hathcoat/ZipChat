@@ -1,7 +1,7 @@
 //Login form and sending login request to backend
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {Link} from "react-router-dom";
 
 function Login({setIsLoggedIn}) {
@@ -21,16 +21,21 @@ function Login({setIsLoggedIn}) {
             });
 
             const{token, redirect} = response.data //extract token.
-            //Save the token for other authenticated requests
-            localStorage.setItem("token", token);
-            localStorage.setItem("username", username);
 
-            if (redirect) {
-                navigate("/name");
-            } else {
+            if(token){ //Added this if statement
+                //Save the token for other authenticated requests
+                localStorage.setItem("token", token);
+                localStorage.setItem("username", username);
                 setIsLoggedIn(true);
-                setMessage("Login successful!");
-                navigate("/home");
+                setMessage("Login successful! Redirecting...");
+
+                if (redirect) {
+                    navigate("/name");
+                } else {
+                    //setIsLoggedIn(true);
+                    //setMessage("Login successful!");
+                    navigate("/home");
+                }
             }
             
         } catch(error) {
@@ -51,8 +56,9 @@ function Login({setIsLoggedIn}) {
             {message && <p>{message}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Username:</label>
-                    <input
+                    <label htmlFor="username">Username:</label>
+                    <input 
+                        id="username"
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
@@ -60,8 +66,9 @@ function Login({setIsLoggedIn}) {
                     />
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label htmlFor="password">Password:</label>
                     <input 
+                        id="password"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}

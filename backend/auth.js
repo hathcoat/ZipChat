@@ -6,7 +6,16 @@ const {login} = require("./authController");
 const bcrypt = require("bcryptjs");
 const User = require("./User")
 const jwt = require('jsonwebtoken')
+const mongoose = require("mongoose");
 require('dotenv').config();
+
+router.get("/", (req, res) => {
+    res.status(200).json({ message: "Auth route working"});
+});
+
+router.post("/", (req, res) => {
+    res.status(200).json({ message: "Recieved JSON successfully!"});
+});
 
 //Call the login foo.
 //router.post("/login", login);
@@ -15,7 +24,7 @@ router.post("/login", async(req, res) => {
 
     const user = await User.findOne({username});
     if(!user || !await bcrypt.compare(password, user.password)){
-        return res.status(400).json({message: "Invalid crednetials"});
+        return res.status(400).json({message: "Invalid credentials"});
     }
 
     const jwt = require('jsonwebtoken');
@@ -106,6 +115,9 @@ router.get("/:username", async (req, res) => {
 router.put("/avatar", async(req, res) => {
     const {userId, avatarColor} = req.body;
 
+    if(!mongoose.Types.ObjectId.isValid(userId)){
+        return res.status(404).json({message: "User not found"});
+    }
     try{
         //Update teh color
         const user = await User.findByIdAndUpdate(
@@ -122,21 +134,24 @@ router.put("/avatar", async(req, res) => {
         res.status(500).json({error: err.message});
     }
 });
-
+/*
 router.get("/getuser", async (req, res) => {
     try{
         console.log("Recieved request to /getuser"); //Debug
         //Get token from request
         const token = req.header("Authorization")?.replace("Bearer ", "");
+        console.log("Extracted Token:", token);
 
         if(!token){
-            console.warn("No token found in locaStorage.");
+            console.warn("No token found.");
             return res.status(401).json({message: "No token, authorization denied"});
         }
 
+        console.log("Decoding token...");
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         console.log("Decoded JWT ID:", decoded.id); //Debug
         const user = await User.findById(decoded.id).select("-password"); //Exclude password.
+        console.log("Found USer:", user ? user.username : "Not found");
 
         if(!user){
             console.error("user not found in data baase for ID:", decoded.id);
@@ -156,6 +171,7 @@ router.get("/getuser", async (req, res) => {
         res.status(500).json({message: "Server error"});
     }
 });
+*/
 router.get("/user/:username", async (req, res) => {
     try {
         const user = await User.findOne({ username: req.params.username }).select("-password");

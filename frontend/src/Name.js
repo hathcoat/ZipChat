@@ -65,8 +65,9 @@ function Name() {
             <h2>Set Your Name & Avatar Color</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>First Name:</label>
+                    <label htmlFor="first_name">First Name:</label>
                     <input
+                        id="first_name"
                         type="text"
                         value={first_name}
                         onChange={(e) => setFirstName(e.target.value)}
@@ -74,8 +75,9 @@ function Name() {
                         />
                 </div>
                 <div>
-                    <label>Last Name:</label>
+                    <label htmlFor="last_name">Last Name:</label>
                     <input
+                        id="last_name"
                         type="text"
                         value={last_name}
                         onChange={(e) => setLastName(e.target.value)}
@@ -89,6 +91,7 @@ function Name() {
                         {colorOptions.map((color) => (
                             <div
                                 key={color}
+                                data-testid="avatar-color-option"
                                 onClick= {() => setSelectedColor(color)}
                                 style={{
                                     backgroundColor: color,

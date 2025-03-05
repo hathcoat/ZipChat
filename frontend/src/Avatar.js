@@ -1,7 +1,7 @@
 import React from "react";
 
 const Avatar = ({firstname, lastname, color, size = 40}) =>{
-    const initials = `${firstname[0]}${lastname[0]}`.toUpperCase();
+    const initials = `${firstname?.[0] || ""}${lastname?.[0] || ""}`.toUpperCase().trim() || "?";
 
     const avatarStyle = {
         width: size,
