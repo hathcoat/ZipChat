@@ -14,6 +14,17 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/rooms/:userId", async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const chatrooms = await Chatroom.find({ members: userId }).populate("members", "username");
+        res.json(chatrooms);
+    } catch (err) {
+        console.error("Error fetching chatrooms:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 router.post('/', async (req, res) => {
     try {
         const { name, members } = req.body;
