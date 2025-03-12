@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getChatroom } from "./GetChatroom.js";
@@ -9,17 +10,27 @@ const ChatroomDisplay = () => {
     const { chatroomId } = useParams();
     const [chatroom, setChatroom] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [error, setError] = useState(null);
+
 
     //Gets chatroom info and fills box
     const fetchChatroom = async () => {
-        const data = await getChatroom(chatroomId);
-        setChatroom(data);
+        try {
+            const data = await getChatroom(chatroomId);
+            setChatroom(data);
+        } catch (err) {
+            setError("Failed to load chatroom");
+        }
     };
 
     //Retrieves user ID
     const fetchUserId = async () => {
-        const id = await getUserId();
-        setUserId(id);
+        try {
+            const id = await getUserId();
+            setUserId(id);
+        } catch (err) {
+            setError("Failed to load user ID");
+        }
     };
 
     //UID
@@ -42,6 +53,9 @@ const ChatroomDisplay = () => {
         }));
     };
 */
+    if (error) 
+        return <p>{error}</p>;
+
     if (!chatroom || !chatroom.messages || !chatroom.members)
         return (<p>Loading chatroom...</p>);
 
