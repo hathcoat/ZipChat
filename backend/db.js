@@ -5,7 +5,7 @@ const connectDB = async(customUri = null) => {
     const dbURI = customUri || process.env.MONGO_URI;
     if(!dbURI){
         console.error("MongoDB URI is not set.");
-        throw new Error("Databasee connection failed");
+        throw new Error("Database connection failed");
     }
     try{
         if(mongoose.connection.readyState !== 0){

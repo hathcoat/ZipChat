@@ -112,3 +112,21 @@ test('failed login displays error message', async() => {
         expect(screen.getByText(/login failed. please check your credentials./i)).toBeInTheDocument();
     });
 });
+
+test("username and password inputs should enforce character limits", () => {
+    render(
+        <MemoryRouter>
+            <Login />
+        </MemoryRouter>
+
+    );
+
+    const usernameInput = screen.getByLabelText(/username/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+
+    fireEvent.change(usernameInput, {target: {value: "a".repeat(35) }});
+    fireEvent.change(passwordInput, {target: {value: "b".repeat(35) }});
+
+    expect(screen.getByDisplayValue('a'.repeat(30))).toBeInTheDocument();
+    expect(screen.getByDisplayValue('b'.repeat(30))).toBeInTheDocument();
+})

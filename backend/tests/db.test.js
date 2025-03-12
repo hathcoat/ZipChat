@@ -61,4 +61,27 @@ describe("Database Connection",  () => {
         expect(consoleSpy).toHaveBeenCalledWith("No active connection to close");
         consoleSpy.mockRestore();
     });
+
+    test("should throw an error if MONGO_URI is not set", async () => {
+        const originalEnv = process.env.MONGO_URI;
+        delete process.env.MONGO_URI;
+
+        await expect(connectDB()).rejects.toThrow("Database connection failed");
+
+        process.env.MONGO_URI = originalEnv;
+    });
+
+    test("should handle connection failure and throw an error", async() => {
+        const connectSpy = jest.spyOn(mongoose, "connect").mockRejectedValueOnce(new Error("Failed to connect"));
+        const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+
+        const testMongoUri = "mongodb://localhost:9999/test_db";
+
+        await expect(connectDB(testMongoUri)).rejects.toThrow("Database connection failed");
+
+        expect(consoleSpy).toHaveBeenCalledWith("MongoDB not connected.", expect.any(Error));
+
+        connectSpy.mockRestore();
+        consoleSpy.mockRestore();
+    });
 }, 10000);

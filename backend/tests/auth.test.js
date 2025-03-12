@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 
 let mongoServer; //Store in memory MongoDB instance.
 let server;
-
+//jest.mock("../User");
 jest.setTimeout(10000); //Set test timeout
 
 beforeAll(async () => {
@@ -23,10 +23,12 @@ beforeAll(async () => {
 afterAll(async () => {
     await closeDB();
     await mongoServer.stop();
+   // jest.clearAllMocks();
 
     if(server && server.listening){
         await new Promise((resolve) => server.close(resolve));
     }
+    await mongoose.connection.close();
 });
 
 describe("Authentication routes", () => {
@@ -54,10 +56,13 @@ describe("Authentication routes", () => {
         const res = await request(app).post("/api/auth/register").send({
             username: "newuser",
             password: "securepassword",
+            first_name: "Ron",
+            last_name:"Arnold"
         });
 
         expect(res.statusCode).toBe(201); //Expect 201 created status code.
         expect(res.body).toHaveProperty("message"); //Expect a response message.
+        expect(res.body).not.toHaveProperty("redirect");
     });
 
     test("should return 500 if a database error occurs during registration", async () => {
@@ -82,6 +87,41 @@ describe("Authentication routes", () => {
 
         expect(res.statusCode).toBe(400); //Expect 400 Bad Request
         expect(res.body.message).toBe("User already taken.");
+    });
+
+    test("Registartion should reject usernames over 30 characters", async () => {
+        const res = await request(app).post("/api/auth/register").send({
+            username: "a".repeat(31),
+            password: "Valid123"
+        });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Username exceeds 30 characters.");
+    });
+    test("Registartion should reject passwords over 30 characters", async () => {
+        const res = await request(app).post("/api/auth/register").send({
+            username: "Valid",
+            password: "b".repeat(31)
+        });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Password exceeds 30 characters.");
+    });
+
+    test("Registration should reject usernames under 2 characters", async () => {
+        const res = await request(app).post("/api/auth/register").send({
+            username: "1",
+            password: "Valid"
+        });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Username must be at least 2 characters.");
+    });
+
+    test("Registration should reject passwords under 2 characters", async () => {
+        const res = await request(app).post("/api/auth/register").send({
+            username: "Valid",
+            password: "1"
+        });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Password must be at least 2 characters.");
     });
 
     //When Redirect is false
@@ -122,6 +162,42 @@ describe("Authentication routes", () => {
         expect(res.body.message).toBe("Invalid credentials");
     });
 
+    test("Login should reject usernames over 30 characters", async () => {
+        const res = await request(app).post("/api/auth/login").send({
+            username: "a".repeat(31),
+            password: "Valid123"
+        });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Username exceeds 30 characters.");
+    });
+
+    test("Login should reject passwords over 30 characters", async () => {
+        const res = await request(app).post("/api/auth/login").send({
+            username: "Valid",
+            password: "b".repeat(31)
+        });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Password exceeds 30 characters.");
+    });
+
+    test("Login should reject usernames under 2 characters", async () => {
+        const res = await request(app).post("/api/auth/login").send({
+            username: "1",
+            password: "Valid"
+        });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Username must be at least 3 characters.");
+    });
+
+    test("Login should reject passwords under 2 characters", async () => {
+        const res = await request(app).post("/api/auth/login").send({
+            username: "Valid",
+            password: "1"
+        });
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Password must be at least 3 characters.");
+    });
+
     test("should update users name", async() => {
         const res = await request(app)
         .post("/api/auth/setname")
@@ -155,6 +231,28 @@ describe("Authentication routes", () => {
         User.prototype.save.mockRestore(); // Restore original function   
     });
 
+    test("should fail if an attempt is made to set a first name more then 30 characters", async() => {
+        const res = await request(app).post("/api/auth/setname").send({
+            first_name: "a".repeat(31),
+            last_name: "Valid",
+            avatarColor: "#ff0000"
+        });
+
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("First name exceeds 30 characters.");
+    });
+
+    test("should fail if an attempt is made to set a last name more then 30 characters", async() => {
+        const res = await request(app).post("/api/auth/setname").send({
+            first_name: "Valid",
+            last_name: "b".repeat(31),
+            avatarColor: "#ff0000"
+        });
+
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("Last name exceeds 30 characters.");
+    });
+
     test("should deny name update without token", async () => {
         const res = await request(app).post("/api/auth/setname").send({
             first_name: "New",
@@ -166,9 +264,25 @@ describe("Authentication routes", () => {
         expect(res.body.message).toBe("No token, authorization denied");
     });
 
+    //Is needed?
+    test("should fail if no user sent", async() => {
+        const res = await request(app).post("/api/auth/setname").send();
+
+        expect(res.statusCode).toBe(400);
+        expect(res.body.message).toBe("First name and last name are required.");
+    });
+
     //Test: Get /api/auth/:username
     test("should fetch user by username", async () => {
-        const res = await request(app).get(`/api/auth/user/${testUser.username}`);
+        await User.create({
+            username: "123",
+            password: "123",
+            firstname: "testuser",
+            first_name: "Rob",
+            last_name: "Bob",
+            avatarColor: "#ffffff"
+        });
+        const res = await request(app).get('/api/auth/user/testuser');
 
         expect(res.statusCode).toBe(200);
         expect(res.body).toHaveProperty("first_name", "Rob");
@@ -203,6 +317,29 @@ describe("Authentication routes", () => {
         expect(res.body.message).toBe("User not found");
     });
 
+    test("should return 404 for invalid userId format", async () => {
+        const res = await request(app).put("/api/auth/avatar").send({
+            userId: "invalid-id",
+            avatarColor:  "#ff0000",
+        });
+        expect(res.statusCode).toBe(404);
+        expect(res.body.message).toBe("User not found");
+    });
+
+    test("should return 500 if data base error occurs", async() => {
+        jest.spyOn(User, "findByIdAndUpdate").mockRejectedValueOnce(new Error("Database error"));
+
+        const res = await request(app).put("/api/auth/avatar").send({
+            userId: testUser._id,
+            avatarColor: "#ff0000",
+        });
+
+        expect(res.statusCode).toBe(500);
+        expect(res.body.error).toBe("Database error");
+
+       // User.findByIdAndUpdate.mockRestore();
+    });
+
     //Test: GET /api/auth/user/:usrname
     test("should fetch user details by username", async () => {
         const res = await request(app).get(`/api/auth/user/${testUser.username}`);
@@ -235,5 +372,45 @@ describe("Authentication routes", () => {
         });
         expect(res.statusCode).toBe(200);
         expect(res.body).toHaveProperty("message", "Recieved JSON successfully!");
+    });
+
+    test('should fetch user by username (200)', async () => {
+        const mockUser = {
+            _id: '507f1f77bcf86cd799439011',
+            username: "testuser",
+            password: "test"
+        };
+
+        const findOneSpy = jest.spyOn(User, 'findOne').mockResolvedValueOnce(mockUser);
+
+        const res = await request(app).get('/api/auth/testuser');
+
+        expect(User.findOne).toHaveBeenCalledWith({ username: 'testuser' });
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toEqual({
+            id: mockUser._id,
+            username: mockUser.username
+        });
+    });
+
+    //:user
+    test('should return 404 if user is not found', async () => {
+        const findOneSpy = jest.spyOn(User, 'findOne').mockResolvedValueOnce(null);
+
+        const res = await request(app).get('/api/auth/nonexistentuser');
+
+        expect(User.findOne).toHaveBeenCalledWith({ username: 'nonexistentuser' });
+        expect(res.statusCode).toBe(404);
+        expect(res.body).toEqual({ error: 'User not found.' });
+    });
+
+    test('should return 500 on database error', async () => {
+        const findOneSpy = jest.spyOn(User, 'findOne').mockRejectedValueOnce(new Error('Database error'));
+
+        const res = await request(app).get('/api/auth/erroruser');
+
+        expect(User.findOne).toHaveBeenCalledWith({ username: 'erroruser' });
+        expect(res.statusCode).toBe(500);
+        expect(res.body).toEqual({ error: 'Server error' });
     });
 });

@@ -32,12 +32,34 @@ return (
         <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="username">Username:</label>
-                <input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required/>
+                <input 
+                    id="username" 
+                    type="text" 
+                    value={username} 
+                    //onChange={(e) => setUsername(e.target.value)} 
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        setUsername(value.slice(0, 30));
+                    }}
+                    required 
+                    maxLength={30} 
+                />
             </div>
 
             <div>
                 <label htmlFor="password">Password:</label>
-                <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                <input 
+                    id="password" 
+                    type="password" 
+                    value={password} 
+                    //onChange={(e) => setPassword(e.target.value)} 
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        setPassword(value.slice(0, 30));
+                    }}
+                    required 
+                    maxLength={30}
+                />
             </div>
             <button type="submit">Register</button>
         </form>

@@ -61,8 +61,12 @@ function Login({setIsLoggedIn}) {
                         id="username"
                         type="text"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setUsername(value.slice(0, 30));
+                        }}
                         required
+                        maxLength={30}
                     />
                 </div>
                 <div>
@@ -71,8 +75,12 @@ function Login({setIsLoggedIn}) {
                         id="password"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setPassword(value.slice(0, 30));
+                        }}
                         required
+                        maxLength={30}
                     />
                 </div>
                 <button type="Submit">Login</button>

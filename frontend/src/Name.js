@@ -70,8 +70,12 @@ function Name() {
                         id="first_name"
                         type="text"
                         value={first_name}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setFirstName(value.slice(0, 30));
+                        }}
                         required
+                        maxLength={30}
                         />
                 </div>
                 <div>
@@ -80,8 +84,12 @@ function Name() {
                         id="last_name"
                         type="text"
                         value={last_name}
-                        onChange={(e) => setLastName(e.target.value)}
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            setLastName(value.slice(0, 30));
+                        }}
                         required
+                        maxLength={30}
                     />
                 </div>
 

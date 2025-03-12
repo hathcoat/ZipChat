@@ -99,4 +99,23 @@ test('input fields update corectly', () => {
     expect(usernameInput.value).toBe('testuser');
     expect(passwordInput.value).toBe('testpassword');
 });
-    
+
+test("username and password inputs should enforce character limits", () => {
+    render(
+        <MemoryRouter>
+            <Register />
+        </MemoryRouter>
+    );
+
+    const usernameInput = screen.getByLabelText(/username/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+
+    fireEvent.change(usernameInput, {target: {value: "a".repeat(35) }});
+    fireEvent.change(passwordInput, {target: {value: "b".repeat(35) }});
+
+//    expect(usernameInput.value.length).toBe(30);
+ //   expect(passwordInput.value.length).toBe(30);
+    expect(screen.getByDisplayValue('a'.repeat(30))).toBeInTheDocument();
+    expect(screen.getByDisplayValue('b'.repeat(30))).toBeInTheDocument();
+
+});

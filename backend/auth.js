@@ -21,12 +21,27 @@ router.post("/", (req, res) => {
 //router.post("/login", login);
 router.post("/login", async(req, res) => {
     const {username, password} = req.body;
+    if(!username || !password){
+        return res.status(400).json({ message: "Username an password are required."});
+    }
+
+    if(username.length > 30){
+        return res.status(400).json({ message: "Username exceeds 30 characters." });
+    }
+    if(password.length > 30){
+        return res.status(400).json({ message: "Password exceeds 30 characters." });
+    }
+    if(username.length < 2){
+        return res.status(400).json({ message: "Username must be at least 3 characters."});
+    }
+    if(password.length < 2){
+        return res.status(400).json({ message: "Password must be at least 3 characters."});
+    }
 
     const user = await User.findOne({username});
     if(!user || !await bcrypt.compare(password, user.password)){
         return res.status(400).json({message: "Invalid credentials"});
     }
-
     const jwt = require('jsonwebtoken');
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
     const redirect = !user.first_name || !user.last_name;
@@ -39,6 +54,18 @@ router.post("/register", async(req, res) => {
         const{username, password, first_name, last_name} = req.body;
         console.log(`Attempting to register user: ${username}`);
 
+        if(username.length > 30){
+            return res.status(400).json({ message: "Username exceeds 30 characters." });
+        }
+        if(password.length > 30){
+            return res.status(400).json({ message: "Password exceeds 30 characters." });
+        }
+        if(username.length < 2){
+            return res.status(400).json({ message: "Username must be at least 2 characters."});
+        }
+        if(password.length < 2){
+            return res.status(400).json({ message: "Password must be at least 2 characters."});
+        }
         //Check if user already exists.
         const existingUser = await User.findOne({username});
         if(existingUser){
@@ -71,7 +98,17 @@ router.post("/register", async(req, res) => {
 });
 
 router.post("/setname", async (req, res) => {
-    const {first_name, last_name, avatarColor} = req.body;
+    const {first_name, last_name, avatarColor} = req.body || {};
+
+    if(!first_name || !last_name){
+        return res.status(400).json({ message: "First name and last name are required."});
+    }
+    if(first_name.length > 30){
+        return res.status(400).json({ message: "First name exceeds 30 characters." });
+    }
+    if(last_name.length > 30){
+        return res.status(400).json({ message: "Last name exceeds 30 characters." });
+    }
 
     try {
         const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -189,5 +226,7 @@ router.get("/user/:username", async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 });
+
+
 
 module.exports = router;

@@ -115,6 +115,19 @@ test("submission and update local storage", async () => {
     expect(mockedUsedNavigate).toHaveBeenCalledWith("/home");
 });
 
+test("Should not allow for entries larger then 30 characters for first and last name", async () => {
+    render(<Name />);
+
+    const firstNameInput = screen.getByLabelText(/first name/i);
+    const lastNameInput = screen.getByLabelText(/last name/i);
+
+    fireEvent.change(firstNameInput, {target: {value: "a".repeat(35) }});
+    fireEvent.change(lastNameInput, {target: {value: "b".repeat(35) }});
+
+    expect(screen.getByDisplayValue('a'.repeat(30))).toBeInTheDocument();
+    expect(screen.getByDisplayValue('b'.repeat(30))).toBeInTheDocument();
+})
+
 
 
 
