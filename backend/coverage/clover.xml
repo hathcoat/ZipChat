@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1741760347606" clover="3.2.0">
-  <project timestamp="1741760347606" name="All files">
-    <metrics statements="235" coveredstatements="177" conditionals="95" coveredconditionals="69" methods="18" coveredmethods="12" elements="348" coveredelements="258" complexity="0" loc="235" ncloc="235" packages="1" files="7" classes="7"/>
+<coverage generated="1741853759259" clover="3.2.0">
+  <project timestamp="1741853759259" name="All files">
+    <metrics statements="242" coveredstatements="178" conditionals="95" coveredconditionals="69" methods="19" coveredmethods="12" elements="356" coveredelements="259" complexity="0" loc="242" ncloc="242" packages="1" files="7" classes="7"/>
     <file name="Chatroom.js" path="C:\Users\codyh\Downloads\MERN\backend\Chatroom.js">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <line num="1" count="2" type="stmt"/>
@@ -147,7 +147,7 @@
       <line num="30" count="1" type="stmt"/>
     </file>
     <file name="chatroomRoutes.js" path="C:\Users\codyh\Downloads\MERN\backend\chatroomRoutes.js">
-      <metrics statements="64" coveredstatements="14" conditionals="20" coveredconditionals="0" methods="6" coveredmethods="1"/>
+      <metrics statements="71" coveredstatements="15" conditionals="20" coveredconditionals="0" methods="7" coveredmethods="1"/>
       <line num="1" count="2" type="stmt"/>
       <line num="2" count="2" type="stmt"/>
       <line num="3" count="2" type="stmt"/>
@@ -162,56 +162,63 @@
       <line num="17" count="2" type="stmt"/>
       <line num="18" count="0" type="stmt"/>
       <line num="19" count="0" type="stmt"/>
-      <line num="21" count="0" type="cond" truecount="0" falsecount="4"/>
-      <line num="22" count="0" type="stmt"/>
-      <line num="26" count="0" type="cond" truecount="0" falsecount="4"/>
-      <line num="27" count="0" type="stmt"/>
-      <line num="31" count="0" type="stmt"/>
-      <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="34" count="0" type="stmt"/>
-      <line num="37" count="0" type="stmt"/>
-      <line num="39" count="0" type="stmt"/>
-      <line num="40" count="0" type="stmt"/>
+      <line num="20" count="0" type="stmt"/>
+      <line num="21" count="0" type="stmt"/>
+      <line num="23" count="0" type="stmt"/>
+      <line num="24" count="0" type="stmt"/>
+      <line num="28" count="2" type="stmt"/>
+      <line num="29" count="0" type="stmt"/>
+      <line num="30" count="0" type="stmt"/>
+      <line num="32" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="33" count="0" type="stmt"/>
+      <line num="37" count="0" type="cond" truecount="0" falsecount="4"/>
+      <line num="38" count="0" type="stmt"/>
       <line num="42" count="0" type="stmt"/>
-      <line num="44" count="0" type="stmt"/>
+      <line num="44" count="0" type="cond" truecount="0" falsecount="2"/>
       <line num="45" count="0" type="stmt"/>
-      <line num="49" count="2" type="stmt"/>
+      <line num="48" count="0" type="stmt"/>
       <line num="50" count="0" type="stmt"/>
       <line num="51" count="0" type="stmt"/>
-      <line num="54" count="0" type="stmt"/>
-      <line num="59" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="60" count="0" type="stmt"/>
+      <line num="53" count="0" type="stmt"/>
+      <line num="55" count="0" type="stmt"/>
+      <line num="56" count="0" type="stmt"/>
+      <line num="60" count="2" type="stmt"/>
+      <line num="61" count="0" type="stmt"/>
+      <line num="62" count="0" type="stmt"/>
       <line num="65" count="0" type="stmt"/>
-      <line num="70" count="0" type="stmt"/>
-      <line num="72" count="0" type="stmt"/>
-      <line num="73" count="0" type="stmt"/>
-      <line num="78" count="2" type="stmt"/>
-      <line num="79" count="0" type="stmt"/>
-      <line num="80" count="0" type="stmt"/>
+      <line num="70" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="71" count="0" type="stmt"/>
+      <line num="76" count="0" type="stmt"/>
       <line num="81" count="0" type="stmt"/>
-      <line num="82" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="85" count="0" type="stmt"/>
-      <line num="86" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="87" count="0" type="stmt"/>
-      <line num="88" count="0" type="stmt"/>
-      <line num="89" count="0" type="stmt"/>
+      <line num="83" count="0" type="stmt"/>
+      <line num="84" count="0" type="stmt"/>
+      <line num="89" count="2" type="stmt"/>
       <line num="90" count="0" type="stmt"/>
       <line num="91" count="0" type="stmt"/>
-      <line num="103" count="0" type="stmt"/>
-      <line num="104" count="0" type="stmt"/>
-      <line num="108" count="2" type="stmt"/>
-      <line num="109" count="0" type="stmt"/>
-      <line num="110" count="0" type="stmt"/>
-      <line num="112" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="113" count="0" type="stmt"/>
+      <line num="92" count="0" type="stmt"/>
+      <line num="93" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="96" count="0" type="stmt"/>
+      <line num="97" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="98" count="0" type="stmt"/>
+      <line num="99" count="0" type="stmt"/>
+      <line num="100" count="0" type="stmt"/>
+      <line num="101" count="0" type="stmt"/>
+      <line num="102" count="0" type="stmt"/>
       <line num="114" count="0" type="stmt"/>
-      <line num="117" count="0" type="stmt"/>
-      <line num="119" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="115" count="0" type="stmt"/>
+      <line num="119" count="2" type="stmt"/>
       <line num="120" count="0" type="stmt"/>
-      <line num="122" count="0" type="stmt"/>
+      <line num="121" count="0" type="stmt"/>
+      <line num="123" count="0" type="cond" truecount="0" falsecount="2"/>
       <line num="124" count="0" type="stmt"/>
       <line num="125" count="0" type="stmt"/>
-      <line num="129" count="2" type="stmt"/>
+      <line num="128" count="0" type="stmt"/>
+      <line num="130" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="131" count="0" type="stmt"/>
+      <line num="133" count="0" type="stmt"/>
+      <line num="135" count="0" type="stmt"/>
+      <line num="136" count="0" type="stmt"/>
+      <line num="140" count="2" type="stmt"/>
     </file>
     <file name="db.js" path="C:\Users\codyh\Downloads\MERN\backend\db.js">
       <metrics statements="23" coveredstatements="21" conditionals="9" coveredconditionals="9" methods="2" coveredmethods="2"/>

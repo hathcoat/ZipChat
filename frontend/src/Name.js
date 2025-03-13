@@ -62,6 +62,14 @@ function Name() {
 
     return (
         <div>
+            <buton 
+                type="button"
+                onClick={() => navigate("/home")}
+                style={ styles.homeButton}
+            >
+                Return Home
+            </buton>
+
             <h2>Set Your Name & Avatar Color</h2>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -128,5 +136,14 @@ function Name() {
         </div>
     );
 }
-
+const styles = {
+    homeButton: {
+      background: "#808080", 
+      color: "black",
+      border: "none",
+      padding: "5px 10px",
+      cursor: "pointer",
+      borderRadius: "5px",
+    },
+  };
 export default Name;
