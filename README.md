@@ -64,12 +64,12 @@ Run the frontend:
 cd ../frontend  
 npm start
 
-After starting both the fronend and backend, visit 'http://localhost:3000' to interact with the application.
+After starting both the frontend and backend, visit 'http://localhost:3000' to interact with the application.
 
 ## Features
 - User authentication (Login and Registration)
 - Chatroom creation/selection
-- Message sending/recieving
+- Message sending/receiving
 - Display of full conversation history in chatrooms
 - List of all available chatrooms
 - Chatroom deletion
