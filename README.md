@@ -11,6 +11,12 @@ npm install |
 cd ../frontend |
 npm install
 
+3. Environment Variables
+Create a `.env` file in the `backend` directory and add the following:
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+PORT=5000
+
 ### Backend Dependencies
 The backend of this project is built with **Node.js** and **Express**, and uses the following major dependencies:
 - **express** (^4.21.2): Web framework for Node.js.
@@ -48,12 +54,6 @@ The development dependencies (For testing and development only) include:
 - **identity-obj-proxy** (^3.0.0): Mock CSS modules in Jest tests.
 - **jest-environment-jsdom** (^29.7.0): Provides a browser-like environment for Jest tests.
 - **util** (^0.12.5): Polyfill for Node.js util module in browser environments.
-
-3. Environment Variables
-Create a `.env` file in the `backend` directory and add the following:
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-PORT=5000
 
 ## Usage
 Run the backend: 
