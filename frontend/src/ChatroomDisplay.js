@@ -1,12 +1,13 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getChatroom } from "./GetChatroom.js";
 import { getUserId } from "./GetUserId.js";
 import ChatInterface from "./ChatInterface";
 import Avatar from "./Avatar";
 
 const ChatroomDisplay = () => {
+    const navigate = useNavigate();
     const { chatroomId } = useParams();
     const [chatroom, setChatroom] = useState(null);
     const [userId, setUserId] = useState(null);
@@ -78,7 +79,7 @@ const ChatroomDisplay = () => {
                     <div style={{ width: "40px", height: "40px", backgroundColor: "#ccc", borderRadius: "50%" }} />
                 )}
                 <p style={{ marginLeft: "10px" }}>
-                    <strong>{sender ? sender.username : "Unknown User"}:</strong> {msg.content}
+                    <strong>{sender.username}:</strong> {msg.content}
                 </p>
             </div>
         );
@@ -86,6 +87,10 @@ const ChatroomDisplay = () => {
 
     return (
         <div>
+            <button
+                onClick={() => navigate("/home")}
+                style={styles.homeButton}
+                >Return Home</button>
             <h2>{chatroom.name}</h2>
             <h3>Members:</h3>
             <ul>
@@ -108,10 +113,10 @@ const ChatroomDisplay = () => {
                         return(
                         <div key={msg._id} style={{ marginBottom: "10px" }}>
                             <p style={{ fontSize: "10pt", margin: "1px 0" }}>
-                                {<Avatar firstname={sender.first_name ||""} lastname={sender.last_name || ""} color={sender.avatarColor || "#3498db"} size={40}/>}: {msg.content}
+                                {<Avatar firstname={sender.first_name ||""} lastname={sender.last_name || ""} color={sender.avatarColor || "#3498db"} size={40}/>} <strong> {sender.username}: </strong> {msg.content}
                             </p>
                             <p style={{ fontSize: "6pt", margin: 0 }}>
-                                {new Date(msg.timestamp).toLocaleTimeString()} {new Date(msg.timestamp).toLocaleDateString()}
+                                {new Date(msg.timestamp).toLocaleTimeString()} {new Date(msg.timestamp).toLocaleDateString()} by {sender.first_name} {sender.last_name}
                             </p>
                         </div>
                         );
@@ -127,4 +132,16 @@ const ChatroomDisplay = () => {
         </div>
     );
 }
+
+const styles = {
+    homeButton: {
+      background: "#808080", 
+      color: "black",
+      border: "none",
+      padding: "5px 10px",
+      cursor: "pointer",
+      borderRadius: "5px",
+    },
+  };
+
 export default ChatroomDisplay;
