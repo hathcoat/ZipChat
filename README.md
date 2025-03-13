@@ -1,5 +1,4 @@
 # MERN Chat App: ZipChat
-# MERN Chat App: ZipChat
 ZipChat is a real-time messaging application built with the MERN stack (MongoDB, Express, React, Node.js). It allows users to register, log in, and participate in live chatrooms—whether one-on-one or in group conversations. Users can create and delete chatrooms, personalize their profile, and enjoy a seamless chat experience with real-time updates.
 
 ## Installation
@@ -7,9 +6,9 @@ ZipChat is a real-time messaging application built with the MERN stack (MongoDB,
 git clone https://github.com/hathcoat/ZipChat.git 
 
 2. Install dependencies
-cd backend
-npm install
-cd ../frontend
+cd backend |
+npm install |
+cd ../frontend |
 npm install
 
 ### Backend Dependencies
@@ -58,11 +57,11 @@ PORT=5000
 
 ## Usage
 Run the backend: 
-cd backend
+cd backend |
 node ./server.js
 
 Run the frontend:
-cd ../frontend
+cd ../frontend |
 npm start
 
 After starting both the fronend and backend, visit 'http://localhost:3000' to interact with the application.
@@ -82,11 +81,11 @@ After starting both the fronend and backend, visit 'http://localhost:3000' to in
 ## Testing
 ### Backend Tests
 To run the tests in the backend, enter the following commands:
-cd backend
+cd backend |
 npm test
 
 To run the tests in the frontend, you must leave the backend by using the following commands:
-cd ../frontend
+cd ../frontend |
 npm test
 
 Using these tests you will be able to see the validity of the software.
