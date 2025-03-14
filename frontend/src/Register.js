@@ -9,6 +9,12 @@ function Register() {
 
 const handleSubmit = async(e) => {
     e.preventDefault();
+/*
+    if(username.includes(",")){
+        setMessage("Usernames cannot contain commas.");
+        return;
+    }
+    */
     try {
         const response = await axios.post("http://localhost:5000/api/auth/register", {
             username,
@@ -39,6 +45,11 @@ return (
                     //onChange={(e) => setUsername(e.target.value)} 
                     onChange={(e) => {
                         const value = e.target.value;
+                        if(value.includes(",")){
+                            setMessage("Commas are not allowed in usernames.");
+                            return;
+                        }
+                        setMessage("");
                         setUsername(value.slice(0, 30));
                     }}
                     required 

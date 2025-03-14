@@ -129,6 +129,26 @@ test("Should not allow for entries larger then 30 characters for first and last 
 })
 
 
+test("renders wtih fallback values if user has no first_name, last_name, or avatarColor", async () => {
+    axios.get.mockResolvedValueOnce({
+        data: {
+            first_name: null,
+            last_name: null,
+            avatarColor: null
+        }
+    });
+
+    render(
+        <MemoryRouter>
+            <Name />
+        </MemoryRouter>
+    );
+
+    await waitFor(() => {
+        expect(screen.getByText("Set Your Name & Avatar Color")).toBeInTheDocument();
+    });
+
+});
 
 
 

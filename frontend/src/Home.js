@@ -26,6 +26,8 @@ function Home(){
         localStorage.removeItem("last_name")
         localStorage.removeItem("avatarColor")
 
+        localStorage.removeItem("username")
+
         navigate("/login");
     };
 

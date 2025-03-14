@@ -119,3 +119,27 @@ test("username and password inputs should enforce character limits", () => {
     expect(screen.getByDisplayValue('b'.repeat(30))).toBeInTheDocument();
 
 });
+
+test("shows an error message when username contains comma and prevents submission", async () => {
+    render(
+        <MemoryRouter>
+            <Register />
+        </MemoryRouter>
+    );
+
+    const usernameInput = screen.getByLabelText(/username/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+    const registerButton = screen.getByRole('button', {name: /register/i});
+
+    //Attempt to type in a user with a comma
+    fireEvent.change(usernameInput, { target: { value: 'invalid,user' } });
+
+    expect(screen.getByText(/commas are not allowed in usernames/i)).toBeInTheDocument();
+
+    //Try and register with a ,
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(registerButton);
+
+    expect(axios.post).not.toHaveBeenCalled();
+    expect(usernameInput.value).not.toContain(",");
+});
