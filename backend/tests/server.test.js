@@ -43,6 +43,7 @@ describe("Server Setup", () => {
             await new Promise((resolve) => server.close(resolve));
         }
     });
+
     //it defines a test case
     //Super test sends HTTP req
     
@@ -83,4 +84,5 @@ describe("Server Setup", () => {
     it("should start without errors", async () =>  {
         expect(server.listening).toBeTruthy();
     });
-})
+
+});
