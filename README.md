@@ -5,17 +5,21 @@ ZipChat is a real-time messaging application built with the MERN stack (MongoDB,
 1. Clone the repository:
 git clone https://github.com/hathcoat/ZipChat.git 
 
+2. Download Node.js (If not done yet already):
+https://nodejs.org/
+
 2. Install dependencies
-cd backend  
+cd ZipChat/backend
 npm install  
 cd ../frontend  
 npm install
 
 3. Environment Variables
 Create a `.env` file in the `backend` directory and add the following:
-MONGO_URI=your_mongodb_connection_string  
+MONGO_URI=your_mongodb_connection_string (You can download MongoDB Compass to get started and get a URI here: https://www.mongodb.com/try/download/compass)  
 JWT_SECRET=your_secret_key  
 PORT=5000  
+
 
 ### Backend Dependencies
 The backend of this project is built with **Node.js** and **Express**, and uses the following major dependencies:
@@ -56,7 +60,7 @@ The development dependencies (For testing and development only) include:
 - **util** (^0.12.5): Polyfill for Node.js util module in browser environments.
 
 ## Usage
-Run the backend: 
+Run the backend:  
 cd backend  
 node ./server.js
 
@@ -79,7 +83,6 @@ After starting both the frontend and backend, visit 'http://localhost:3000' to i
 - Ability to create a chatroom with multiple users (Group chat)
 
 ## Testing
-### Backend Tests
 To run the tests in the backend, enter the following commands:
 cd backend  
 npm test
