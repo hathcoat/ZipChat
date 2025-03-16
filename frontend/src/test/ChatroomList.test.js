@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import ChatroomList from "../ChatroomList";
 import { getChatrooms } from "../GetChatrooms";
@@ -19,23 +19,26 @@ const mockChatrooms = [
 test("shows loading state initially", () => {
     getChatrooms.mockResolvedValueOnce([]);
 
-    render(
-        <MemoryRouter>
-            <ChatroomList setRefresh={jest.fn()} />
-        </MemoryRouter>
-    );
+    act(() => {
+        render(
+            <MemoryRouter>
+                <ChatroomList setRefresh={jest.fn()} />
+            </MemoryRouter>
+        );
+    });
 
     expect(screen.getByText(/loading chatrooms/i)).toBeInTheDocument();
 });
 
 test("fetches and displays chatrooms", async () => {
     getChatrooms.mockResolvedValueOnce(mockChatrooms);
-
-    render(
-        <MemoryRouter>
-            <ChatroomList setRefresh={jest.fn()} />
-        </MemoryRouter>
-    );
+    act(() => {
+        render(
+            <MemoryRouter>
+                <ChatroomList setRefresh={jest.fn()} />
+            </MemoryRouter>
+        );
+    });
 
     //wait for data to load
     await waitFor(() => expect(screen.getByText("Available Chatrooms")).toBeInTheDocument());
@@ -49,24 +52,26 @@ test("fetches and displays chatrooms", async () => {
 
 test("shows none available when list is empty", async () => {
     getChatrooms.mockResolvedValueOnce([]);
-
-    render(
-        <MemoryRouter>
-            <ChatroomList setRefresh={jest.fn()} />
-        </MemoryRouter>
-    );
+    act(() => {
+        render(
+            <MemoryRouter>
+                <ChatroomList setRefresh={jest.fn()} />
+            </MemoryRouter>
+        );
+    });
 
     await waitFor(() => expect(screen.getByText(/no chatrooms available/i)).toBeInTheDocument());
 });
 
 test("handles error while fetching chatrooms", async () => {
     getChatrooms.mockRejectedValueOnce(new Error("Failed to fetch chatrooms"));
-
-    render(
-        <MemoryRouter>
-            <ChatroomList setRefresh={jest.fn()} />
-        </MemoryRouter>
-    );
+    act(() => {
+        render(
+            <MemoryRouter>
+                <ChatroomList setRefresh={jest.fn()} />
+            </MemoryRouter>
+        );
+    });
 
     await waitFor(() => expect(screen.getByText(/loading chatrooms/i)).toBeInTheDocument());
 });
@@ -75,11 +80,13 @@ test("deletes a chatroom when delete button is clicked", async () => {
     getChatrooms.mockResolvedValueOnce(mockChatrooms);
     window.confirm = jest.fn(() => true); //mock confirmation dialog
 
-    render(
-        <MemoryRouter>
-            <ChatroomList setRefresh={jest.fn()} />
-        </MemoryRouter>
-    );
+    act(() => {
+        render(
+            <MemoryRouter>
+                <ChatroomList setRefresh={jest.fn()} />
+            </MemoryRouter>
+        );
+    });
 
     await waitFor(() => expect(screen.getByText("Available Chatrooms")).toBeInTheDocument());
 
