@@ -8,13 +8,16 @@ git clone https://github.com/hathcoat/ZipChat.git
 2. Download Node.js (If not done yet already):  
 https://nodejs.org/
 
-2. Install dependencies:  
+2. Download MongoDB (If not done yet already):  
+https://www.mongodb.com/try/download/community
+
+4. Install dependencies:  
 cd ZipChat/backend
 npm install  
 cd ../frontend  
 npm install
 
-3. Environment Variables  
+5. Environment Variables  
 Create a `.env` file in the `backend` directory and add the following:
 MONGO_URI=your_mongodb_connection_string (You can download MongoDB Compass to get started and get a URI here: https://www.mongodb.com/try/download/compass)  
 JWT_SECRET=your_secret_key  
