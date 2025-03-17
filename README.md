@@ -18,7 +18,7 @@ cd ../frontend
 npm install
 
 5. Environment Variables  
-Create a `.env` file in the `backend` directory and add the following:
+Create a `.env` file in the `backend` directory and add the following:  
 MONGO_URI=your_mongodb_connection_string (You can download MongoDB Compass to get started and get a URI here: https://www.mongodb.com/try/download/compass)  
 JWT_SECRET=your_secret_key  
 PORT=5000  
