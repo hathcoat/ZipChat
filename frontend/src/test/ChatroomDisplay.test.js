@@ -63,12 +63,12 @@ test("fetches the chatroom details", async () => {
 
     //members
     for (const member of mockChatroomData.members) {
-        await screen.findByText(member.username);
+        await screen.getByText(member.username);
     }
 
     //messages
     for (const msg of mockChatroomData.messages) {
-        await screen.findByText(msg.content);
+        await screen.getByText(msg.content);
     }
 });
 
