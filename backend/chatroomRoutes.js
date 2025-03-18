@@ -4,6 +4,7 @@ const router = express.Router();
 const Chatroom = require('./Chatroom');
 const User = require('./User');
 
+
 router.get("/", async (req, res) => {
     try {
         const chatrooms = await Chatroom.find().populate("members", "username");

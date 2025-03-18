@@ -10,8 +10,7 @@ export const createChatroom = async (name, usernames) => {
         });
         return res.data;
     } catch (err) {
-        console.error(err.response.data);
-        //Continue throwing error
-        throw err
+        console.error(err.response?.data || "Unknown error");
+        throw new Error(err.response?.data || "Failed to create chatroom");
     }
 };

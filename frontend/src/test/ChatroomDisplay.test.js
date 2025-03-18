@@ -61,15 +61,15 @@ test("fetches the chatroom details", async () => {
     // Wait for chatroom data to be fetched
     await waitFor(() => expect(screen.getByText(mockChatroomData.name)).toBeInTheDocument());
 
-    // Check members
-    mockChatroomData.members.forEach(member => {
-        expect(screen.getByText(member.username)).toBeInTheDocument();
-    });
+    //members
+    for (const member of mockChatroomData.members) {
+        await screen.findByText(member.username);
+    }
 
-    // Check messages
-    mockChatroomData.messages.forEach(msg => {
-        expect(screen.getByText((content) => content.includes(msg.content))).toBeInTheDocument();
-    });
+    //messages
+    for (const msg of mockChatroomData.messages) {
+        await screen.findByText(msg.content);
+    }
 });
 
 test("displays the no messages message if chatroom is empty", async () => {
